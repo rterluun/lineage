@@ -1,0 +1,92 @@
+{
+	"name": "pipeline",
+	"properties": {
+		"description": "Sample pipeline",
+		"activities": [
+			{
+				"name": "Until loop",
+				"description": "Sample loop",
+				"type": "Until",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@not(parameters('continueLoop'))",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy",
+							"description": "Copy activity",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET",
+									"paginationRules": {
+										"supportRFC5988": "true"
+									}
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "DS_REST",
+									"type": "DatasetReference",
+									"parameters": {}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DS_BlobFS",
+									"type": "DatasetReference",
+									"parameters": {
+										"pFolder": {
+											"value": "@parameters('rawFolderPath')",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"continueLoop": {
+				"type": "Boolean",
+				"defaultValue": true
+			},
+			"rawFolderPath": {
+				"type": "String",
+				"defaultValue": "raw"
+			}
+		},
+		"folder": {
+			"name": "sample"
+		},
+		"annotations": []
+	}
+}
