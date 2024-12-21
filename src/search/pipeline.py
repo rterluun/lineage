@@ -1,3 +1,4 @@
+from json import dumps
 from logging import Logger, getLogger
 from typing import List, Literal
 
@@ -46,3 +47,20 @@ def find_copy_activities(
         except KeyError:
             logger.warning("No activities found in pipeline")
     return copy_activities
+
+
+def filter_copy_activities(
+    copy_activities: List[CopyActivity],
+    filter: Literal["inputs", "outputs"],
+    filter_value: str,
+):
+
+    filtered_copy_activities: List[CopyActivity] = []
+
+    for activity in copy_activities:
+
+        for filtered_activity in getattr(activity, filter):
+            if filter_value in dumps(filtered_activity):
+                filtered_copy_activities.append(activity)
+
+    return filtered_copy_activities
