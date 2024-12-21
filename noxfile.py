@@ -3,8 +3,11 @@ import nox
 
 @nox.session
 def tests(session):
+    session.install("coverage==7.6.9")
     session.install("pytest==8.3.4")
-    session.run("pytest")
+
+    session.run("coverage", "run", "--source", "src", "-m", "pytest", "tests")
+    session.run("coverage", "report", "-m")
 
 
 @nox.session
@@ -19,4 +22,4 @@ def lint(session):
     session.run("flake8")
     session.run("isort", "--check", ".")
     session.run("mypy", ".")
-    session.run("yamllint", ".")
+    session.run("yamllint", "--no-warnings", ".")
