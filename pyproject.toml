@@ -27,4 +27,4 @@ max-line-length = 120
 count = true
 
 [tool.mypy]
-exclude = ["^noxfile\\.py$"]
+exclude = ["^noxfile\\.py$", "^tests/conftest.py$"]
