@@ -21,16 +21,18 @@ def find_copy_activities(
             for activity in activities:
                 if activity["type"] == "Until":
                     # Handle Until activity with nested activities
-                    copy_activities.append(
-                        find_copy_activities(
-                            pipeline=Pipeline(
-                                file_path=pipeline.file_path,
-                                json_data=activity,
-                            ),
-                            property_element="typeProperties",
-                            logger=logger,
-                        )
+
+                    nested_activities = find_copy_activities(
+                        pipeline=Pipeline(
+                            file_path=pipeline.file_path,
+                            json_data=activity,
+                        ),
+                        property_element="typeProperties",
+                        logger=logger,
                     )
+
+                    for nested_activity in nested_activities:
+                        copy_activities.append(nested_activity)
 
                 if activity["type"] == "Copy":
                     copy_activities.append(

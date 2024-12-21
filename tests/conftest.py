@@ -19,28 +19,43 @@ def adf_pipeline():
 @pytest.fixture
 def adf_copy_activity():
     return [
-        [
-            CopyActivity(
-                name="Copy",
-                inputs=[
-                    {
-                        "referenceName": "DS_REST",
-                        "type": "DatasetReference",
-                        "parameters": {},
-                    }
-                ],
-                outputs=[
-                    {
-                        "referenceName": "DS_BlobFS",
-                        "type": "DatasetReference",
-                        "parameters": {
-                            "pFolder": {
-                                "value": "@parameters('rawFolderPath')",
-                                "type": "Expression",
-                            }
-                        },
-                    }
-                ],
-            )
-        ]
+        CopyActivity(
+            name="Copy",
+            inputs=[
+                {
+                    "referenceName": "DS_REST",
+                    "type": "DatasetReference",
+                    "parameters": {},
+                }
+            ],
+            outputs=[
+                {
+                    "referenceName": "DS_BlobFS",
+                    "type": "DatasetReference",
+                    "parameters": {},
+                }
+            ],
+        ),
+        CopyActivity(
+            name="Copy",
+            inputs=[
+                {
+                    "referenceName": "DS_REST",
+                    "type": "DatasetReference",
+                    "parameters": {},
+                }
+            ],
+            outputs=[
+                {
+                    "referenceName": "DS_BlobFS",
+                    "type": "DatasetReference",
+                    "parameters": {
+                        "pFolder": {
+                            "value": "@parameters('rawFolderPath')",
+                            "type": "Expression",
+                        }
+                    },
+                }
+            ],
+        ),
     ]
