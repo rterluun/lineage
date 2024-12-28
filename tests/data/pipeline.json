@@ -4,7 +4,7 @@
 		"description": "Sample pipeline",
 		"activities": [
 			{
-				"name": "Copy",
+				"name": "Copy 1",
 				"description": "Copy activity 1",
 				"type": "Copy",
 				"dependsOn": [],
@@ -53,8 +53,8 @@
 				]
 			},
 			{
-				"name": "Until loop",
-				"description": "Sample loop",
+				"name": "Until 1",
+				"description": "Until activity 1",
 				"type": "Until",
 				"dependsOn": [],
 				"userProperties": [],
@@ -65,7 +65,7 @@
 					},
 					"activities": [
 						{
-							"name": "Copy",
+							"name": "Copy 2",
 							"description": "Copy activity 2",
 							"type": "Copy",
 							"dependsOn": [],
