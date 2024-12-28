@@ -14,10 +14,16 @@ class Adf:
 
     @classmethod
     def from_jsonfile(cls, file_path: str):
+
+        object_name = None
+
         json_data: Optional[dict] = json(
             file_path=file_path,
             logger=LOGGER,
         )
+
+        if json_data and json_data["name"]:
+            object_name = json_data["name"]
 
         if cls.__name__ == "Pipeline":
             return cls(
@@ -30,6 +36,7 @@ class Adf:
         if cls.__name__ == "Dataset":
             return cls(
                 dataclass=dataclasses.Dataset(
+                    name=object_name,
                     file_path=file_path,
                     json_data=json_data,
                 )
@@ -43,6 +50,7 @@ class Pipeline(Adf):
             file_path=None,
             json_data=None,
         ),
+        datasets: list[dataclasses.Dataset] = [],
     ):
         super().__init__(dataclass=dataclass)
         self.pipeline: dataclasses.Pipeline = dataclass
@@ -50,11 +58,27 @@ class Pipeline(Adf):
             pipeline=dataclass
         )
 
+        # Calls dataset
+        self.calls_dataset: list[dataclasses.CallDataset] = []
+
+        for copy_activity in self.copy_activities:
+            self.calls_dataset.append(
+                dataclasses.CallDataset(
+                    copy_activity_name=copy_activity.name,
+                    datasets=[
+                        dataset
+                        for dataset in datasets
+                        if dataset.name == copy_activity.outputs[0]["referenceName"]
+                    ],
+                )
+            )
+
 
 class Dataset(Adf):
     def __init__(
         self,
         dataclass: dataclasses.Dataset = dataclasses.Dataset(
+            name=None,
             file_path=None,
             json_data=None,
         ),

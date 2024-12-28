@@ -20,6 +20,6 @@ def lint(session):
 
     session.run("black", "--check", ".")
     session.run("flake8", "--max-line-length", "120", ".")
-    session.run("isort", "--check", ".")
+    session.run("isort", "--profile", "black", "--check", ".")
     session.run("mypy", ".")
     session.run("yamllint", "--no-warnings", ".")
