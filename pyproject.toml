@@ -11,6 +11,8 @@ python = "^3.11"
 [tool.poetry.group.dev.dependencies]
 pre-commit = "4.0.1"
 nox = "2024.10.9"
+black = "24.10.0"
+isort = "5.13.2"
 
 [build-system]
 requires = ["poetry-core"]
