@@ -11,8 +11,6 @@ def test_filter_copy_activities(adf_copy_activity):
 
     assert len(filtered_copy_activities) == 1
     assert (
-        filtered_copy_activities[0].outputs[0]["parameters"]["pFolder"][
-            "value"
-        ]  # noqa: E501
+        filtered_copy_activities[0].outputs[0]["parameters"]["pFolder"]["value"]
         == "@parameters('rawFolderPath')"
     )

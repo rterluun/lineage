@@ -46,7 +46,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_BlobFS",
+						"referenceName": "dataset",
 						"type": "DatasetReference",
 						"parameters": {}
 					}
@@ -107,7 +107,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "DS_BlobFS",
+									"referenceName": "dataset",
 									"type": "DatasetReference",
 									"parameters": {
 										"pFolder": {

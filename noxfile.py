@@ -19,7 +19,7 @@ def lint(session):
     session.install("yamllint==1.35.1")
 
     session.run("black", "--check", ".")
-    session.run("flake8")
+    session.run("flake8", "--max-line-length", "120", ".")
     session.run("isort", "--check", ".")
     session.run("mypy", ".")
     session.run("yamllint", "--no-warnings", ".")

@@ -2,17 +2,28 @@ from json import load
 
 import pytest
 
-from lineage.dataclasses.adf import CopyActivity, Pipeline
+from lineage.dataclasses.adf import CopyActivity, Dataset, Pipeline
 
 with open("tests/data/pipeline.json") as f:
-    json_data = dict(load(f))
+    pipeline_json_data = dict(load(f))
+
+with open("tests/data/dataset.json") as f:
+    dataset_json_data = dict(load(f))
 
 
 @pytest.fixture
 def adf_pipeline():
     return Pipeline(
         file_path="tests/data/pipeline.json",
-        json_data=json_data,
+        json_data=pipeline_json_data,
+    )
+
+
+@pytest.fixture
+def adf_dataset():
+    return Dataset(
+        file_path="tests/data/dataset.json",
+        json_data=dataset_json_data,
     )
 
 
@@ -30,7 +41,7 @@ def adf_copy_activity():
             ],
             outputs=[
                 {
-                    "referenceName": "DS_BlobFS",
+                    "referenceName": "dataset",
                     "type": "DatasetReference",
                     "parameters": {},
                 }
@@ -47,7 +58,7 @@ def adf_copy_activity():
             ],
             outputs=[
                 {
-                    "referenceName": "DS_BlobFS",
+                    "referenceName": "dataset",
                     "type": "DatasetReference",
                     "parameters": {
                         "pFolder": {

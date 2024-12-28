@@ -1,16 +1,12 @@
 from json import dumps
-from logging import Logger, getLogger
 from typing import List, Literal
 
 from lineage.dataclasses.adf import CopyActivity, Pipeline
-
-LOGGER = getLogger(__name__)
 
 
 def find_copy_activities(
     pipeline: Pipeline,
     property_element: Literal["properties", "typeProperties"] = "properties",
-    logger: Logger = LOGGER,
 ):
     copy_activities: List[CopyActivity] = []
     json_data = pipeline.json_data
@@ -29,7 +25,6 @@ def find_copy_activities(
                             json_data=activity,
                         ),
                         property_element="typeProperties",
-                        logger=logger,
                     )
 
                     for nested_activity in nested_activities:
@@ -45,7 +40,7 @@ def find_copy_activities(
                     )
 
         except KeyError:
-            logger.warning("No activities found in pipeline")
+            pass
     return copy_activities
 
 

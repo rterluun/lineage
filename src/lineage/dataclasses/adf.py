@@ -17,3 +17,11 @@ class CopyActivity:
     name: str
     inputs: list
     outputs: list
+
+
+@dataclass
+class Dataset:
+    """Dataset dataclass"""
+
+    file_path: Optional[str]
+    json_data: Optional[dict]

@@ -1,0 +1,25 @@
+{
+	"name": "dataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "linkedservice",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"pFolder": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "sample"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
