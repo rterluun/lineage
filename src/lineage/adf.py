@@ -50,7 +50,6 @@ class Pipeline(Adf):
             file_path=None,
             json_data=None,
         ),
-        datasets: list[dataclasses.Dataset] = [],
     ):
         super().__init__(dataclass=dataclass)
         self.pipeline: dataclasses.Pipeline = dataclass
