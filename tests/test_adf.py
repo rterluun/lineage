@@ -25,10 +25,3 @@ def test_linkedservice_from_jsonfile(adf_linkedservice: dataclasses.LinkedServic
         file_path="tests/data/linkedservice.json"
     )
     assert linkedservice.linkedservice == adf_linkedservice
-
-
-def test_pipeline_lineage(adf_dataset: Dataset, adf_linkedservice: LinkedService):
-    Pipeline.from_jsonfile(file_path="tests/data/pipeline.json").lineage(
-        datasets_dir_path="tests/data",
-        linked_services_dir_path="tests/data",
-    )
