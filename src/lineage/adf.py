@@ -58,21 +58,6 @@ class Pipeline(Adf):
             pipeline=dataclass
         )
 
-        # Calls dataset
-        self.calls_dataset: list[dataclasses.CallDataset] = []
-
-        for copy_activity in self.copy_activities:
-            self.calls_dataset.append(
-                dataclasses.CallDataset(
-                    copy_activity_name=copy_activity.name,
-                    datasets=[
-                        dataset
-                        for dataset in datasets
-                        if dataset.name == copy_activity.outputs[0]["referenceName"]
-                    ],
-                )
-            )
-
 
 class Dataset(Adf):
     def __init__(

@@ -36,6 +36,10 @@ def find_copy_activities(
                             name=activity["name"],
                             inputs=activity["inputs"],
                             outputs=activity["outputs"],
+                            inputs_dataset_name=activity["inputs"][0]["referenceName"],
+                            outputs_dataset_name=activity["outputs"][0][
+                                "referenceName"
+                            ],
                         )
                     )
 
