@@ -26,6 +26,8 @@ minversion = "6.0"
 addopts = "-ra -q"
 testpaths = ["tests"]
 pythonpath = ["src"]
+log_cli = true
+log_cli_level = "INFO"
 
 [tool.flake8]
 max-line-length = 120

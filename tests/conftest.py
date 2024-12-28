@@ -10,7 +10,7 @@ with open("tests/data/pipeline.json") as f:
 with open("tests/data/dataset.json") as f:
     dataset_json_data = dict(load(f))
 
-with open("tests/data/linkedservices.json") as f:
+with open("tests/data/linkedservice.json") as f:
     linkedservices_json_data = dict(load(f))
 
 
@@ -37,7 +37,7 @@ def adf_dataset():
 def adf_linkedservice():
     return LinkedService(
         name="linkedservice",
-        file_path="tests/data/linkedservices.json",
+        file_path="tests/data/linkedservice.json",
         json_data=linkedservices_json_data,
     )
 

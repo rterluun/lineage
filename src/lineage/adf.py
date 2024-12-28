@@ -1,9 +1,10 @@
-from logging import getLogger
+from logging import Logger, getLogger
 from typing import Optional, Union
 
 import lineage.dataclasses.adf as dataclasses
 from reader.file import json
 from search.pipeline import find_copy_activities
+from writer.file import log
 
 LOGGER = getLogger(__name__)
 
@@ -63,12 +64,28 @@ class Pipeline(Adf):
             file_path=None,
             json_data=None,
         ),
+        logger: Logger = LOGGER,
     ):
         super().__init__(dataclass=dataclass)
         self.pipeline: dataclasses.Pipeline = dataclass
+        self.logger = logger
         self.copy_activities: list[dataclasses.CopyActivity] = find_copy_activities(
             pipeline=dataclass
         )
+
+    def lineage(
+        self,
+        datasets_dir_path: str,
+        linked_services_dir_path: str,
+    ):
+        if self.pipeline.name:
+            log(
+                pipeline_name=self.pipeline.name,
+                copy_activities=self.copy_activities,
+                datasets_dir_path=datasets_dir_path,
+                linked_services_dir_path=linked_services_dir_path,
+                logger=self.logger,
+            )
 
 
 class Dataset(Adf):
