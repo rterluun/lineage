@@ -28,3 +28,4 @@ class Dataset:
     name: Optional[str]
     file_path: Optional[str]
     json_data: Optional[dict]
+    linked_service_name: Optional[str]

@@ -25,6 +25,7 @@ def adf_dataset():
         name="dataset",
         file_path="tests/data/dataset.json",
         json_data=dataset_json_data,
+        linked_service_name="linkedservice",
     )
 
 

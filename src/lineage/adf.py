@@ -15,32 +15,31 @@ class Adf:
     @classmethod
     def from_jsonfile(cls, file_path: str):
 
-        object_name = None
-
         json_data: Optional[dict] = json(
             file_path=file_path,
             logger=LOGGER,
         )
 
-        if json_data and json_data["name"]:
-            object_name = json_data["name"]
+        if json_data:
+            pipeline_dataclass = dataclasses.Pipeline(
+                file_path=file_path,
+                json_data=json_data,
+            )
+
+            dataset_dataclass = dataclasses.Dataset(
+                name=json_data.get("name", None),
+                file_path=file_path,
+                json_data=json_data,
+                linked_service_name=json_data.get("properties", {})
+                .get("linkedServiceName", {})
+                .get("referenceName", None),
+            )
 
         if cls.__name__ == "Pipeline":
-            return cls(
-                dataclass=dataclasses.Pipeline(
-                    file_path=file_path,
-                    json_data=json_data,
-                )
-            )
+            return cls(dataclass=pipeline_dataclass)
 
         if cls.__name__ == "Dataset":
-            return cls(
-                dataclass=dataclasses.Dataset(
-                    name=object_name,
-                    file_path=file_path,
-                    json_data=json_data,
-                )
-            )
+            return cls(dataclass=dataset_dataclass)
 
 
 class Pipeline(Adf):
@@ -65,6 +64,7 @@ class Dataset(Adf):
             name=None,
             file_path=None,
             json_data=None,
+            linked_service_name=None,
         ),
     ):
         super().__init__(dataclass=dataclass)

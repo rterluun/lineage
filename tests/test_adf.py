@@ -18,12 +18,3 @@ def test_pipeline_copy_activities(
 def test_dataset_from_jsonfile(adf_dataset: Dataset):
     dataset = Dataset().from_jsonfile(file_path="tests/data/dataset.json")
     assert dataset.dataset == adf_dataset
-
-
-# def test_pipeline_calls_dataset(
-#     adf_pipeline: dataclasses.Pipeline,
-#     adf_dataset: dataclasses.Dataset,
-#     call_datasets: list[dataclasses.CallDataset],
-# ):
-#     pipeline = Pipeline(dataclass=adf_pipeline, datasets=[adf_dataset])
-#     assert pipeline.calls_dataset == call_datasets
