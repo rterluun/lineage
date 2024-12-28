@@ -9,7 +9,14 @@ LOGGER = getLogger(__name__)
 
 
 class Adf:
-    def __init__(self, dataclass: Union[dataclasses.Pipeline, dataclasses.Dataset]):
+    def __init__(
+        self,
+        dataclass: Union[
+            dataclasses.Pipeline,
+            dataclasses.Dataset,
+            dataclasses.LinkedService,
+        ],
+    ):
         self.dataclass = dataclass
 
     @classmethod
@@ -37,6 +44,14 @@ class Adf:
                 .get("referenceName", None),
             )
             return cls(dataclass=dataset_dataclass)
+
+        if cls.__name__ == "LinkedService" and json_data:
+            linkedservice_dataclass = dataclasses.LinkedService(
+                name=json_data.get("name", None),
+                file_path=file_path,
+                json_data=json_data,
+            )
+            return cls(dataclass=linkedservice_dataclass)
 
 
 class Pipeline(Adf):
@@ -66,3 +81,16 @@ class Dataset(Adf):
     ):
         super().__init__(dataclass=dataclass)
         self.dataset: dataclasses.Dataset = dataclass
+
+
+class LinkedService(Adf):
+    def __init__(
+        self,
+        dataclass: dataclasses.LinkedService = dataclasses.LinkedService(
+            name=None,
+            file_path=None,
+            json_data=None,
+        ),
+    ):
+        super().__init__(dataclass=dataclass)
+        self.linkedservice: dataclasses.LinkedService = dataclass

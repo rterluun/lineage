@@ -1,5 +1,5 @@
 import lineage.dataclasses.adf as dataclasses
-from lineage.adf import Dataset, Pipeline
+from lineage.adf import Dataset, LinkedService, Pipeline
 
 
 def test_pipeline_from_jsonfile(adf_pipeline: Pipeline):
@@ -18,3 +18,10 @@ def test_pipeline_copy_activities(
 def test_dataset_from_jsonfile(adf_dataset: Dataset):
     dataset = Dataset().from_jsonfile(file_path="tests/data/dataset.json")
     assert dataset.dataset == adf_dataset
+
+
+def test_linkedservice_from_jsonfile(adf_linkedservice: dataclasses.LinkedService):
+    linkedservice = LinkedService().from_jsonfile(
+        file_path="tests/data/linkedservices.json"
+    )
+    assert linkedservice.linkedservice == adf_linkedservice

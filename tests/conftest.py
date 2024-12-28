@@ -2,13 +2,16 @@ from json import load
 
 import pytest
 
-from lineage.dataclasses.adf import CopyActivity, Dataset, Pipeline
+from lineage.dataclasses.adf import CopyActivity, Dataset, LinkedService, Pipeline
 
 with open("tests/data/pipeline.json") as f:
     pipeline_json_data = dict(load(f))
 
 with open("tests/data/dataset.json") as f:
     dataset_json_data = dict(load(f))
+
+with open("tests/data/linkedservices.json") as f:
+    linkedservices_json_data = dict(load(f))
 
 
 @pytest.fixture
@@ -26,6 +29,15 @@ def adf_dataset():
         file_path="tests/data/dataset.json",
         json_data=dataset_json_data,
         linked_service_name="linkedservice",
+    )
+
+
+@pytest.fixture
+def adf_linkedservice():
+    return LinkedService(
+        name="linkedservice",
+        file_path="tests/data/linkedservices.json",
+        json_data=linkedservices_json_data,
     )
 
 

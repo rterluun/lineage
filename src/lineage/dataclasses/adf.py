@@ -29,3 +29,12 @@ class Dataset:
     file_path: Optional[str]
     json_data: Optional[dict]
     linked_service_name: Optional[str]
+
+
+@dataclass
+class LinkedService:
+    """LinkedService dataclass"""
+
+    name: Optional[str]
+    file_path: Optional[str]
+    json_data: Optional[dict]

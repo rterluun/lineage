@@ -1,0 +1,15 @@
+{
+	"name": "linkedservice",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://somestorage.dfs.core.windows.net/"
+		},
+		"connectVia": {
+			"referenceName": "integrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}
