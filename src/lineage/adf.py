@@ -20,12 +20,14 @@ class Adf:
             logger=LOGGER,
         )
 
-        if json_data:
+        if cls.__name__ == "Pipeline" and json_data:
             pipeline_dataclass = dataclasses.Pipeline(
                 file_path=file_path,
                 json_data=json_data,
             )
+            return cls(dataclass=pipeline_dataclass)
 
+        if cls.__name__ == "Dataset" and json_data:
             dataset_dataclass = dataclasses.Dataset(
                 name=json_data.get("name", None),
                 file_path=file_path,
@@ -34,11 +36,6 @@ class Adf:
                 .get("linkedServiceName", {})
                 .get("referenceName", None),
             )
-
-        if cls.__name__ == "Pipeline":
-            return cls(dataclass=pipeline_dataclass)
-
-        if cls.__name__ == "Dataset":
             return cls(dataclass=dataset_dataclass)
 
 
