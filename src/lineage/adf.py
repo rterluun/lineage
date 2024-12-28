@@ -29,6 +29,7 @@ class Adf:
 
         if cls.__name__ == "Pipeline" and json_data:
             pipeline_dataclass = dataclasses.Pipeline(
+                name=json_data.get("name", None),
                 file_path=file_path,
                 json_data=json_data,
             )
@@ -58,6 +59,7 @@ class Pipeline(Adf):
     def __init__(
         self,
         dataclass: dataclasses.Pipeline = dataclasses.Pipeline(
+            name=None,
             file_path=None,
             json_data=None,
         ),

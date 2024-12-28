@@ -20,6 +20,7 @@ def find_copy_activities(
 
                     nested_activities = find_copy_activities(
                         pipeline=Pipeline(
+                            name=pipeline.name,
                             file_path=pipeline.file_path,
                             json_data=activity,
                         ),

@@ -6,6 +6,7 @@ from typing import Optional
 class Pipeline:
     """Pipeline dataclass"""
 
+    name: Optional[str]
     file_path: Optional[str]
     json_data: Optional[dict]
 

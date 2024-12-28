@@ -17,6 +17,7 @@ with open("tests/data/linkedservices.json") as f:
 @pytest.fixture
 def adf_pipeline():
     return Pipeline(
+        name="pipeline",
         file_path="tests/data/pipeline.json",
         json_data=pipeline_json_data,
     )
