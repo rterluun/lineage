@@ -20,7 +20,7 @@ def adf_pipeline():
 def adf_copy_activity():
     return [
         CopyActivity(
-            name="Copy",
+            name="Copy 1",
             inputs=[
                 {
                     "referenceName": "DS_REST",
@@ -37,7 +37,7 @@ def adf_copy_activity():
             ],
         ),
         CopyActivity(
-            name="Copy",
+            name="Copy 2",
             inputs=[
                 {
                     "referenceName": "DS_REST",
