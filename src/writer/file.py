@@ -24,7 +24,7 @@ def log(
                     ".".join((copy_activity.outputs_dataset_name, "json")),
                 )
             )
-            .dataset
+            .data
         )
         linked_service = (
             adf.LinkedService()
@@ -34,7 +34,7 @@ def log(
                     ".".join((dataset.linked_service_name, "json")),
                 )
             )
-            .linkedservice
+            .data
         )
 
         if linked_service.json_data:
