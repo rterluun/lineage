@@ -5,6 +5,7 @@ import nox
 def tests(session):
     session.install("coverage==7.6.9")
     session.install("pytest==8.3.4")
+    session.install("graphviz==0.20.3")
 
     session.run("coverage", "run", "--source", "src", "-m", "pytest", "tests")
     session.run("coverage", "report", "-m")
@@ -21,5 +22,5 @@ def lint(session):
     session.run("black", "--check", ".")
     session.run("flake8", "--max-line-length", "120", ".")
     session.run("isort", "--profile", "black", "--check", ".")
-    session.run("mypy", ".")
+    session.run("mypy", "--ignore-missing-imports", ".")
     session.run("yamllint", "--no-warnings", ".")
