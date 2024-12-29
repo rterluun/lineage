@@ -4,7 +4,6 @@ from typing import Optional, Union
 import lineage.dataclasses.adf as dataclasses
 from reader.file import json
 from search.pipeline import find_copy_activities
-from writer.file import log
 
 LOGGER = getLogger(__name__)
 
@@ -75,20 +74,6 @@ class Pipeline(Adf):
 
         if isinstance(self.data, dataclasses.Pipeline):
             self.copy_activities = find_copy_activities(pipeline=self.data)
-
-    def lineage(
-        self,
-        datasets_dir_path: str,
-        linked_services_dir_path: str,
-    ):
-        if self.data.name:
-            log(
-                pipeline_name=self.data.name,
-                copy_activities=self.copy_activities,
-                datasets_dir_path=datasets_dir_path,
-                linked_services_dir_path=linked_services_dir_path,
-                logger=self.logger,
-            )
 
 
 class Dataset(Adf):
