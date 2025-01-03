@@ -1,9 +1,9 @@
 from logging import Logger, getLogger
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 import lineage.dataclasses.adf as dataclasses
 from reader.file import json
-from search.pipeline import find_copy_activities
+from search.pipeline import find_copy_activities, find_pipeline_reference_activities
 
 LOGGER = getLogger(__name__)
 
@@ -70,10 +70,28 @@ class Pipeline(Adf):
     ):
         super().__init__(data=data)
         self.logger = logger
-        self.copy_activities: list[dataclasses.CopyActivity] = []
+        self.copy_activities: List[dataclasses.CopyActivity] = []
+        self.pipeline_reference_activities: List[dataclasses.PipelineReference] = []
 
         if isinstance(self.data, dataclasses.Pipeline):
+            self.copy_activities = self.find_copy_activities()
+            self.pipeline_reference_activities = (
+                self.find_pipeline_reference_activities()
+            )
+
+    def find_copy_activities(self) -> List[dataclasses.CopyActivity]:
+        if isinstance(self.data, dataclasses.Pipeline):
             self.copy_activities = find_copy_activities(pipeline=self.data)
+
+        return self.copy_activities
+
+    def find_pipeline_reference_activities(self) -> List[dataclasses.PipelineReference]:
+        if isinstance(self.data, dataclasses.Pipeline):
+            self.pipeline_reference_activities = find_pipeline_reference_activities(
+                pipeline=self.data
+            )
+
+        return self.pipeline_reference_activities
 
 
 class Dataset(Adf):

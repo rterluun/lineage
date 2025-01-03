@@ -39,3 +39,11 @@ class LinkedService:
     name: Optional[str]
     file_path: Optional[str]
     json_data: Optional[dict]
+
+
+@dataclass
+class PipelineReference:
+    """PipelineReference dataclass"""
+
+    name: str
+    pipeline: str
