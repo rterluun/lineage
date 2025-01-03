@@ -70,14 +70,12 @@ class Pipeline(Adf):
     ):
         super().__init__(data=data)
         self.logger = logger
-        self.copy_activities: List[dataclasses.CopyActivity] = []
-        self.pipeline_reference_activities: List[dataclasses.PipelineReference] = []
-
-        if isinstance(self.data, dataclasses.Pipeline):
-            self.copy_activities = self.find_copy_activities()
-            self.pipeline_reference_activities = (
-                self.find_pipeline_reference_activities()
-            )
+        self.copy_activities: List[dataclasses.CopyActivity] = (
+            self.find_copy_activities()
+        )
+        self.pipeline_reference_activities: List[dataclasses.PipelineReference] = (
+            self.find_pipeline_reference_activities()
+        )
 
     def find_copy_activities(self) -> List[dataclasses.CopyActivity]:
         if isinstance(self.data, dataclasses.Pipeline):
