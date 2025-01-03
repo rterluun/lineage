@@ -1,0 +1,56 @@
+{
+	"name": "pipeline_exec_pipeline",
+	"properties": {
+		"description": "Sample pipeline",
+		"activities": [
+			{
+				"name": "Call Pipeline",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"continueLoop": true,
+						"rawFolderPath": "raw"
+					}
+				}
+			},
+			{
+				"name": "Call Pipeline Again",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"continueLoop": true,
+						"rawFolderPath": "raw/folder/path"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"continueLoop": {
+				"type": "Boolean",
+				"defaultValue": true
+			},
+			"rawFolderPath": {
+				"type": "String",
+				"defaultValue": "raw"
+			}
+		},
+		"folder": {
+			"name": "sample"
+		},
+		"annotations": []
+	}
+}
