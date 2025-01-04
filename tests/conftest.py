@@ -2,7 +2,13 @@ from json import load
 
 import pytest
 
-from lineage.dataclasses.adf import CopyActivity, Dataset, LinkedService, Pipeline
+from lineage.dataclasses.adf import (
+    CopyActivity,
+    Dataset,
+    LinkedService,
+    Pipeline,
+    PipelineParameter,
+)
 
 with open("tests/data/pipeline.json") as f:
     pipeline_json_data = dict(load(f))
@@ -88,4 +94,12 @@ def adf_copy_activity():
             inputs_dataset_name="DS_REST",
             outputs_dataset_name="dataset",
         ),
+    ]
+
+
+@pytest.fixture
+def adf_pipeline_parameters():
+    return [
+        PipelineParameter(name="continueLoop", type="Boolean", default_value="True"),
+        PipelineParameter(name="rawFolderPath", type="String", default_value="raw"),
     ]

@@ -1,6 +1,6 @@
 from typing import List, Literal
 
-from lineage.dataclasses.adf import CopyActivity, Pipeline
+from lineage.dataclasses.adf import CopyActivity, Pipeline, PipelineParameter
 
 
 def find_copy_activities(
@@ -46,3 +46,21 @@ def find_copy_activities(
         except KeyError:
             pass
     return copy_activities
+
+
+def find_pipeline_parameters(pipeline: Pipeline) -> List[PipelineParameter]:
+
+    pipeline_parameters: List[PipelineParameter] = []
+
+    if pipeline.json_data:
+        parameters = pipeline.json_data.get("properties", {}).get("parameters", {})
+        for param_name, param_properties in parameters.items():
+            pipeline_parameters.append(
+                PipelineParameter(
+                    name=param_name,
+                    type=str(param_properties.get("type", None)),
+                    default_value=str(param_properties.get("defaultValue", None)),
+                )
+            )
+
+    return pipeline_parameters

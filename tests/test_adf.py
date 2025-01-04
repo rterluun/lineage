@@ -1,3 +1,5 @@
+from typing import List
+
 import lineage.dataclasses.adf as dataclasses
 from lineage.adf import Dataset, LinkedService, Pipeline
 
@@ -25,3 +27,11 @@ def test_linkedservice_from_jsonfile(adf_linkedservice: dataclasses.LinkedServic
         file_path="tests/data/linkedservice.json"
     )
     assert linkedservice.data == adf_linkedservice
+
+
+def test_pipeline_parameters(
+    adf_pipeline: dataclasses.Pipeline,
+    adf_pipeline_parameters: List[dataclasses.PipelineParameter],
+):
+    pipeline = Pipeline(data=adf_pipeline)
+    assert pipeline.parameters == adf_pipeline_parameters

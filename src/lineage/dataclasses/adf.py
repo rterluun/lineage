@@ -39,3 +39,12 @@ class LinkedService:
     name: Optional[str]
     file_path: Optional[str]
     json_data: Optional[dict]
+
+
+@dataclass
+class PipelineParameter:
+    """PipelineParameter dataclass"""
+
+    name: str
+    type: Optional[str]
+    default_value: Optional[str]
