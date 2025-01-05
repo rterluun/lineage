@@ -48,3 +48,4 @@ class PipelineParameter:
     name: str
     type: Optional[str]
     default_value: Optional[str]
+    current_value: Optional[str]

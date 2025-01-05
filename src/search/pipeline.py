@@ -60,6 +60,7 @@ def find_pipeline_parameters(pipeline: Pipeline) -> List[PipelineParameter]:
                     name=param_name,
                     type=str(param_properties.get("type", None)),
                     default_value=str(param_properties.get("defaultValue", None)),
+                    current_value=str(param_properties.get("defaultValue", None)),
                 )
             )
 
@@ -78,8 +79,7 @@ def replace_parameters_in_activity(
 
             if placeholder in param_properties.get("value", ""):
                 param_properties["value"] = param_properties["value"].replace(
-                    placeholder,
-                    pipeline_parameter.default_value,
+                    placeholder, pipeline_parameter.current_value
                 )
         replaced_activity_parameters[param_name] = param_properties
 
@@ -95,17 +95,32 @@ def replace_activity_parameters_with_values(
 
     for activity in replaced_activities:
         if activity.inputs:
-            replaced_activity_parameters = replace_parameters_in_activity(
+            replaced_input_activity_parameters = replace_parameters_in_activity(
                 activity_parameters=activity.inputs[0].get("parameters", {}),
                 parameters=parameters,
             )
-            activity.inputs[0]["parameters"] = replaced_activity_parameters
+            activity.inputs[0]["parameters"] = replaced_input_activity_parameters
 
         if activity.outputs:
-            replaced_activity_parameters = replace_parameters_in_activity(
+            replaced_output_activity_parameters = replace_parameters_in_activity(
                 activity_parameters=activity.outputs[0].get("parameters", {}),
                 parameters=parameters,
             )
-            activity.outputs[0]["parameters"] = replaced_activity_parameters
+            activity.outputs[0]["parameters"] = replaced_output_activity_parameters
 
     return replaced_activities
+
+
+def update_pipeline_parameters(
+    parameters: List[PipelineParameter],
+    updated_parameters: List[PipelineParameter],
+) -> List[PipelineParameter]:
+
+    updated_pipeline_parameters = parameters.copy()
+
+    for updated_parameter in updated_parameters:
+        for pipeline_parameter in updated_pipeline_parameters:
+            if updated_parameter.name == pipeline_parameter.name:
+                pipeline_parameter.current_value = updated_parameter.current_value
+
+    return updated_pipeline_parameters

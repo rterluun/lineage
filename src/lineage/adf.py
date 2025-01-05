@@ -7,6 +7,7 @@ from search.pipeline import (
     find_copy_activities,
     find_pipeline_parameters,
     replace_activity_parameters_with_values,
+    update_pipeline_parameters,
 )
 
 LOGGER = getLogger(__name__)
@@ -72,30 +73,48 @@ class Pipeline(Adf):
         ),
         logger: Logger = LOGGER,
         replace_parameters: bool = False,
+        execute_pipeline_parameters: Optional[
+            List[dataclasses.PipelineParameter]
+        ] = None,
     ):
         super().__init__(data=data)
         self.logger = logger
+        self.replace_parameters = replace_parameters
+        self.execute_pipeline_parameters = execute_pipeline_parameters
         self.parameters: List[dataclasses.PipelineParameter] = (
             self.find_pipeline_parameters()
         )
-        self.copy_activities: List[dataclasses.CopyActivity] = []
-
-        if isinstance(self.data, dataclasses.Pipeline):
-            self.copy_activities = find_copy_activities(pipeline=self.data)
-            if replace_parameters:
-                self.replace_activity_parameters_with_values()
+        self.copy_activities: List[dataclasses.CopyActivity] = (
+            self.find_copy_activities()
+        )
 
     def find_pipeline_parameters(self) -> List[dataclasses.PipelineParameter]:
+        parameters: List[dataclasses.PipelineParameter] = []
+
         if isinstance(self.data, dataclasses.Pipeline):
-            self.parameters = find_pipeline_parameters(pipeline=self.data)
+            parameters = find_pipeline_parameters(pipeline=self.data)
 
-        return self.parameters
+            if self.execute_pipeline_parameters:
+                parameters = update_pipeline_parameters(
+                    parameters=parameters,
+                    updated_parameters=self.execute_pipeline_parameters,
+                )
 
-    def replace_activity_parameters_with_values(self):
-        self.copy_activities = replace_activity_parameters_with_values(
-            activities=self.copy_activities,
-            parameters=self.parameters,
-        )
+        return parameters
+
+    def find_copy_activities(self) -> List[dataclasses.CopyActivity]:
+        copy_activities: List[dataclasses.CopyActivity] = []
+
+        if isinstance(self.data, dataclasses.Pipeline):
+            copy_activities = find_copy_activities(pipeline=self.data)
+
+            if self.replace_parameters:
+                copy_activities = replace_activity_parameters_with_values(
+                    activities=copy_activities,
+                    parameters=self.parameters,
+                )
+
+        return copy_activities
 
 
 class Dataset(Adf):
