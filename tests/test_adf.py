@@ -28,4 +28,7 @@ def test_linkedservice_from_jsonfile(adf_linkedservice: dataclasses.LinkedServic
 
 
 def test_pipelines_from_directory():
-    Pipelines().from_directory(dir_path="tests/data")
+    assert (
+        Pipelines().from_directory(dir_path="tests/data/pipelines").pipelines.dir_path
+        == "tests/data/pipelines"
+    )

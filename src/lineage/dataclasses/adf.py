@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import List, Optional
 
 
 @dataclass
@@ -39,3 +39,11 @@ class LinkedService:
     name: Optional[str]
     file_path: Optional[str]
     json_data: Optional[dict]
+
+
+@dataclass
+class Pipelines:
+    """Pipelines dataclass"""
+
+    dir_path: Optional[str]
+    pipelines: List[Pipeline]

@@ -1,8 +1,8 @@
 from logging import Logger, getLogger
-from typing import Optional, Union
+from typing import List, Optional, Union
 
 import lineage.dataclasses.adf as dataclasses
-from reader.file import json
+from reader.file import json, pipelines_from_directory
 from search.pipeline import find_copy_activities
 
 LOGGER = getLogger(__name__)
@@ -99,3 +99,27 @@ class LinkedService(Adf):
         ),
     ):
         super().__init__(data=data)
+
+
+class Pipelines:
+
+    def __init__(
+        self,
+        pipelines: Optional[dataclasses.Pipelines] = None,
+    ):
+        self.pipelines: Optional[dataclasses.Pipelines] = pipelines
+
+    @classmethod
+    def from_directory(cls, dir_path: str):
+        pipeline_files: List[str] = pipelines_from_directory(dir_path=dir_path)
+        pipelines: List[dataclasses.Pipeline] = []
+
+        for file_path in pipeline_files:
+            pipelines.append(Pipeline.from_jsonfile(file_path=file_path))
+
+        return cls(
+            pipelines=dataclasses.Pipelines(
+                dir_path=dir_path,
+                pipelines=pipelines,
+            )
+        )
