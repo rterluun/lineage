@@ -3,7 +3,11 @@ from typing import List, Optional, Union
 
 import lineage.dataclasses.adf as dataclasses
 from reader.file import json
-from search.pipeline import find_copy_activities, find_pipeline_parameters
+from search.pipeline import (
+    find_copy_activities,
+    find_pipeline_parameters,
+    replace_activity_parameters_with_values,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -67,23 +71,31 @@ class Pipeline(Adf):
             json_data=None,
         ),
         logger: Logger = LOGGER,
+        replace_parameters: bool = False,
     ):
         super().__init__(data=data)
         self.logger = logger
-        self.copy_activities: list[dataclasses.CopyActivity] = []
-
-        if isinstance(self.data, dataclasses.Pipeline):
-            self.copy_activities = find_copy_activities(pipeline=self.data)
-
         self.parameters: List[dataclasses.PipelineParameter] = (
             self.find_pipeline_parameters()
         )
+        self.copy_activities: List[dataclasses.CopyActivity] = []
+
+        if isinstance(self.data, dataclasses.Pipeline):
+            self.copy_activities = find_copy_activities(pipeline=self.data)
+            if replace_parameters:
+                self.replace_activity_parameters_with_values()
 
     def find_pipeline_parameters(self) -> List[dataclasses.PipelineParameter]:
         if isinstance(self.data, dataclasses.Pipeline):
             self.parameters = find_pipeline_parameters(pipeline=self.data)
 
         return self.parameters
+
+    def replace_activity_parameters_with_values(self):
+        self.copy_activities = replace_activity_parameters_with_values(
+            activities=self.copy_activities,
+            parameters=self.parameters,
+        )
 
 
 class Dataset(Adf):

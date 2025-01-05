@@ -35,3 +35,36 @@ def test_pipeline_parameters(
 ):
     pipeline = Pipeline(data=adf_pipeline)
     assert pipeline.parameters == adf_pipeline_parameters
+
+
+def test_pipeline_copy_activities_replace_parameters(
+    adf_pipeline: dataclasses.Pipeline,
+):
+    pipeline = Pipeline(
+        data=adf_pipeline,
+        replace_parameters=True,
+    )
+
+    assert [
+        activity for activity in pipeline.copy_activities if activity.name == "Copy 2"
+    ] == [
+        dataclasses.CopyActivity(
+            name="Copy 2",
+            inputs=[
+                {
+                    "referenceName": "DS_REST",
+                    "type": "DatasetReference",
+                    "parameters": {},
+                }
+            ],
+            outputs=[
+                {
+                    "referenceName": "dataset",
+                    "type": "DatasetReference",
+                    "parameters": {"pFolder": {"value": "raw", "type": "Expression"}},
+                }
+            ],
+            inputs_dataset_name="DS_REST",
+            outputs_dataset_name="dataset",
+        )
+    ]

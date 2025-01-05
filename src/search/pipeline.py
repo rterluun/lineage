@@ -1,4 +1,4 @@
-from typing import List, Literal
+from typing import Dict, List, Literal
 
 from lineage.dataclasses.adf import CopyActivity, Pipeline, PipelineParameter
 
@@ -6,7 +6,7 @@ from lineage.dataclasses.adf import CopyActivity, Pipeline, PipelineParameter
 def find_copy_activities(
     pipeline: Pipeline,
     property_element: Literal["properties", "typeProperties"] = "properties",
-):
+) -> List[CopyActivity]:
     copy_activities: List[CopyActivity] = []
     json_data = pipeline.json_data
 
@@ -64,3 +64,48 @@ def find_pipeline_parameters(pipeline: Pipeline) -> List[PipelineParameter]:
             )
 
     return pipeline_parameters
+
+
+def replace_parameters_in_activity(
+    activity_parameters: dict,
+    parameters: List[PipelineParameter],
+) -> Dict:
+    replaced_activity_parameters: Dict = activity_parameters.copy()
+
+    for param_name, param_properties in replaced_activity_parameters.items():
+        for pipeline_parameter in parameters:
+            placeholder = f"@parameters('{pipeline_parameter.name}')"
+
+            if placeholder in param_properties.get("value", ""):
+                param_properties["value"] = param_properties["value"].replace(
+                    placeholder,
+                    pipeline_parameter.default_value,
+                )
+        replaced_activity_parameters[param_name] = param_properties
+
+    return replaced_activity_parameters
+
+
+def replace_activity_parameters_with_values(
+    activities: List[CopyActivity],
+    parameters: List[PipelineParameter],
+) -> List[CopyActivity]:
+
+    replaced_activities = activities.copy()
+
+    for activity in replaced_activities:
+        if activity.inputs:
+            replaced_activity_parameters = replace_parameters_in_activity(
+                activity_parameters=activity.inputs[0].get("parameters", {}),
+                parameters=parameters,
+            )
+            activity.inputs[0]["parameters"] = replaced_activity_parameters
+
+        if activity.outputs:
+            replaced_activity_parameters = replace_parameters_in_activity(
+                activity_parameters=activity.outputs[0].get("parameters", {}),
+                parameters=parameters,
+            )
+            activity.outputs[0]["parameters"] = replaced_activity_parameters
+
+    return replaced_activities
