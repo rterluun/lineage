@@ -9,8 +9,8 @@ def test_diagram(
     dot = diagram(
         pipeline=adf_pipeline,
         copy_activities=adf_copy_activity,
-        datasets_dir_path="tests/data",
-        linked_services_dir_path="tests/data",
+        datasets_dir_path="tests/data/datasets",
+        linked_services_dir_path="tests/data/linkedservices",
     )
 
     assert (

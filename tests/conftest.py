@@ -4,13 +4,13 @@ import pytest
 
 from lineage.dataclasses.adf import CopyActivity, Dataset, LinkedService, Pipeline
 
-with open("tests/data/pipeline.json") as f:
+with open("tests/data/pipelines/pipeline.json", encoding="utf-8") as f:
     pipeline_json_data = dict(load(f))
 
-with open("tests/data/dataset.json") as f:
+with open("tests/data/datasets/dataset.json", encoding="utf-8") as f:
     dataset_json_data = dict(load(f))
 
-with open("tests/data/linkedservice.json") as f:
+with open("tests/data/linkedservices/linkedservice.json", encoding="utf-8") as f:
     linkedservices_json_data = dict(load(f))
 
 
@@ -18,7 +18,7 @@ with open("tests/data/linkedservice.json") as f:
 def adf_pipeline():
     return Pipeline(
         name="pipeline",
-        file_path="tests/data/pipeline.json",
+        file_path="tests/data/pipelines/pipeline.json",
         json_data=pipeline_json_data,
     )
 
@@ -27,7 +27,7 @@ def adf_pipeline():
 def adf_dataset():
     return Dataset(
         name="dataset",
-        file_path="tests/data/dataset.json",
+        file_path="tests/data/datasets/dataset.json",
         json_data=dataset_json_data,
         linked_service_name="linkedservice",
     )
@@ -37,7 +37,7 @@ def adf_dataset():
 def adf_linkedservice():
     return LinkedService(
         name="linkedservice",
-        file_path="tests/data/linkedservice.json",
+        file_path="tests/data/linkedservices/linkedservice.json",
         json_data=linkedservices_json_data,
     )
 
