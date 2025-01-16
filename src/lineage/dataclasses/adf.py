@@ -42,6 +42,14 @@ class LinkedService:
 
 
 @dataclass
+class PipelineReference:
+    """PipelineReference dataclass"""
+
+    name: str
+    pipeline: str
+
+
+@dataclass
 class PipelineParameter:
     """PipelineParameter dataclass"""
 

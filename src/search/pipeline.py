@@ -1,6 +1,11 @@
 from typing import Dict, List, Literal
 
-from lineage.dataclasses.adf import CopyActivity, Pipeline, PipelineParameter
+from lineage.dataclasses.adf import (
+    CopyActivity,
+    Pipeline,
+    PipelineParameter,
+    PipelineReference,
+)
 
 
 def find_copy_activities(
@@ -46,6 +51,26 @@ def find_copy_activities(
         except KeyError:
             pass
     return copy_activities
+
+
+def find_pipeline_reference_activities(pipeline: Pipeline) -> List[PipelineReference]:
+
+    pipeline_reference_activities: List[PipelineReference] = []
+
+    if pipeline.json_data:
+        activities = pipeline.json_data.get("properties", {}).get("activities", [])
+
+        pipeline_reference_activities = [
+            PipelineReference(
+                name=activity["name"],
+                pipeline=activity["typeProperties"]["pipeline"]["referenceName"],
+            )
+            for activity in activities
+            if activity["type"] == "ExecutePipeline"
+            and activity["typeProperties"]["pipeline"]["type"] == "PipelineReference"
+        ]
+
+    return pipeline_reference_activities
 
 
 def find_pipeline_parameters(pipeline: Pipeline) -> List[PipelineParameter]:

@@ -6,6 +6,7 @@ from reader.file import json
 from search.pipeline import (
     find_copy_activities,
     find_pipeline_parameters,
+    find_pipeline_reference_activities,
     replace_activity_parameters_with_values,
     update_pipeline_parameters,
 )
@@ -87,6 +88,9 @@ class Pipeline(Adf):
         self.copy_activities: List[dataclasses.CopyActivity] = (
             self.find_copy_activities()
         )
+        self.pipeline_reference_activities: List[dataclasses.PipelineReference] = (
+            self.find_pipeline_reference_activities()
+        )
 
     def find_pipeline_parameters(self) -> List[dataclasses.PipelineParameter]:
         parameters: List[dataclasses.PipelineParameter] = []
@@ -115,6 +119,16 @@ class Pipeline(Adf):
                 )
 
         return copy_activities
+
+    def find_pipeline_reference_activities(self) -> List[dataclasses.PipelineReference]:
+        pipeline_reference_activities: List[dataclasses.PipelineReference] = []
+
+        if isinstance(self.data, dataclasses.Pipeline):
+            pipeline_reference_activities = find_pipeline_reference_activities(
+                pipeline=self.data
+            )
+
+        return pipeline_reference_activities
 
 
 class Dataset(Adf):

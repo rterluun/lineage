@@ -29,6 +29,14 @@ def test_linkedservice_from_jsonfile(adf_linkedservice: dataclasses.LinkedServic
     assert linkedservice.data == adf_linkedservice
 
 
+def test_pipeline_calls_pipeline(
+    adf_pipeline_exec_pipeline: dataclasses.Pipeline,
+    adf_pipeline_reference_activities: List[dataclasses.PipelineReference],
+):
+    pipeline = Pipeline(data=adf_pipeline_exec_pipeline)
+    assert pipeline.pipeline_reference_activities == adf_pipeline_reference_activities
+
+
 def test_pipeline_parameters(
     adf_pipeline: dataclasses.Pipeline,
     adf_pipeline_parameters: List[dataclasses.PipelineParameter],
