@@ -2,7 +2,13 @@ from json import load
 
 import pytest
 
-from lineage.dataclasses.adf import CopyActivity, Dataset, LinkedService, Pipeline
+from lineage.dataclasses.adf import (
+    CopyActivity,
+    Dataset,
+    LinkedService,
+    Pipeline,
+    PipelineReference,
+)
 
 with open("tests/data/pipeline.json") as f:
     pipeline_json_data = dict(load(f))
@@ -12,6 +18,9 @@ with open("tests/data/dataset.json") as f:
 
 with open("tests/data/linkedservice.json") as f:
     linkedservices_json_data = dict(load(f))
+
+with open("tests/data/pipeline_exec_pipeline.json") as f:
+    pipeline_exec_pipeline_json_data = dict(load(f))
 
 
 @pytest.fixture
@@ -88,4 +97,21 @@ def adf_copy_activity():
             inputs_dataset_name="DS_REST",
             outputs_dataset_name="dataset",
         ),
+    ]
+
+
+@pytest.fixture
+def adf_pipeline_exec_pipeline():
+    return Pipeline(
+        name="pipeline_exec_pipeline",
+        file_path="tests/data/pipeline_exec_pipeline.json",
+        json_data=pipeline_exec_pipeline_json_data,
+    )
+
+
+@pytest.fixture
+def adf_pipeline_reference_activities():
+    return [
+        PipelineReference(name="Call Pipeline", pipeline="pipeline"),
+        PipelineReference(name="Call Pipeline Again", pipeline="pipeline"),
     ]
