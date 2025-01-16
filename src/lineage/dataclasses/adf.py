@@ -47,3 +47,13 @@ class PipelineReference:
 
     name: str
     pipeline: str
+
+
+@dataclass
+class PipelineParameter:
+    """PipelineParameter dataclass"""
+
+    name: str
+    type: Optional[str]
+    default_value: Optional[str]
+    current_value: Optional[str]
