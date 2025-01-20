@@ -2,6 +2,7 @@ from logging import Logger, getLogger
 from typing import List, Optional, Union
 
 import lineage.dataclasses.adf as dataclasses
+from lineage.dataclasses.metadata import Metadata
 from reader.file import json
 from search.pipeline import (
     find_copy_activities,
@@ -26,7 +27,11 @@ class Adf:
         self.data = data
 
     @classmethod
-    def from_jsonfile(cls, file_path: str):
+    def from_jsonfile(
+        cls,
+        file_path: str,
+        metadata: Optional[Metadata] = None,
+    ):
 
         json_data: Optional[dict] = json(
             file_path=file_path,
@@ -39,6 +44,7 @@ class Adf:
                     name=json_data.get("name", None),
                     file_path=file_path,
                     json_data=json_data,
+                    metadata=metadata,
                 )
             )
 
@@ -51,6 +57,7 @@ class Adf:
                     linked_service_name=json_data.get("properties", {})
                     .get("linkedServiceName", {})
                     .get("referenceName", None),
+                    metadata=metadata,
                 )
             )
 
@@ -60,6 +67,7 @@ class Adf:
                     name=json_data.get("name", None),
                     file_path=file_path,
                     json_data=json_data,
+                    metadata=metadata,
                 )
             )
 
@@ -71,6 +79,7 @@ class Pipeline(Adf):
             name=None,
             file_path=None,
             json_data=None,
+            metadata=None,
         ),
         logger: Logger = LOGGER,
         replace_parameters: bool = False,
@@ -139,6 +148,7 @@ class Dataset(Adf):
             file_path=None,
             json_data=None,
             linked_service_name=None,
+            metadata=None,
         ),
     ):
         super().__init__(data=data)
@@ -151,6 +161,7 @@ class LinkedService(Adf):
             name=None,
             file_path=None,
             json_data=None,
+            metadata=None,
         ),
     ):
         super().__init__(data=data)

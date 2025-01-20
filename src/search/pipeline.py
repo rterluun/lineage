@@ -28,6 +28,7 @@ def find_copy_activities(
                             name=pipeline.name,
                             file_path=pipeline.file_path,
                             json_data=activity,
+                            metadata=pipeline.metadata,
                         ),
                         property_element="typeProperties",
                     )

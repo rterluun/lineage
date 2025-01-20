@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import Optional
 
+from lineage.dataclasses.metadata import Metadata
+
 
 @dataclass
 class Pipeline:
@@ -9,6 +11,7 @@ class Pipeline:
     name: Optional[str]
     file_path: Optional[str]
     json_data: Optional[dict]
+    metadata: Optional[Metadata]
 
 
 @dataclass
@@ -30,6 +33,7 @@ class Dataset:
     file_path: Optional[str]
     json_data: Optional[dict]
     linked_service_name: Optional[str]
+    metadata: Optional[Metadata]
 
 
 @dataclass
@@ -39,6 +43,7 @@ class LinkedService:
     name: Optional[str]
     file_path: Optional[str]
     json_data: Optional[dict]
+    metadata: Optional[Metadata]
 
 
 @dataclass

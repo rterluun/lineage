@@ -1,6 +1,7 @@
 ---
 name: Build and Validation
 on:
+  workflow_dispatch:
   push:
     branches-ignore:
       - master

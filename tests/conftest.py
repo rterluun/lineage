@@ -32,6 +32,7 @@ def adf_pipeline():
             name="pipeline",
             file_path="tests/data/pipeline.json",
             json_data=pipeline_json_data,
+            metadata=None,
         )
     )
 
@@ -44,6 +45,7 @@ def adf_dataset():
             file_path="tests/data/dataset.json",
             json_data=dataset_json_data,
             linked_service_name="linkedservice",
+            metadata=None,
         )
     )
 
@@ -55,6 +57,7 @@ def adf_linkedservice():
             name="linkedservice",
             file_path="tests/data/linkedservice.json",
             json_data=linkedservices_json_data,
+            metadata=None,
         )
     )
 
@@ -116,6 +119,7 @@ def adf_pipeline_exec_pipeline():
         name="pipeline_exec_pipeline",
         file_path="tests/data/pipeline_exec_pipeline.json",
         json_data=pipeline_exec_pipeline_json_data,
+        metadata=None,
     )
 
 

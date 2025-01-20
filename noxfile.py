@@ -3,9 +3,14 @@ import nox
 
 @nox.session
 def tests(session):
-    session.install("coverage==7.6.9")
-    session.install("pytest==8.3.4")
-    session.install("graphviz==0.20.3")
+    requirements = nox.project.load_toml("pyproject.toml")["tool"]["poetry"][
+        "dependencies"
+    ]
+    del requirements["python"]
+
+    session.install(*requirements)
+    session.install("coverage")
+    session.install("pytest")
 
     session.run("coverage", "run", "--source", "src", "-m", "pytest", "tests")
     session.run("coverage", "report", "-m")
@@ -13,11 +18,10 @@ def tests(session):
 
 @nox.session
 def lint(session):
-    session.install("black==24.10.0")
-    session.install("flake8==7.1.1")
-    session.install("isort==5.13.2")
-    session.install("mypy==1.14.0")
-    session.install("yamllint==1.35.1")
+    requirements = nox.project.load_toml("pyproject.toml")["tool"]["poetry"]["group"][
+        "dev"
+    ]["dependencies"]
+    session.install(*requirements)
 
     session.run("black", "--check", ".")
     session.run("flake8", "--max-line-length", "120", ".")
