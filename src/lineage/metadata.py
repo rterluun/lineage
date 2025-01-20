@@ -4,12 +4,14 @@ from typing import List, Optional
 from pymssql import Connection
 
 import lineage.connectors.mssql as mssql
-from lineage.dataclasses.metadata import Metadata, SearchConditionTable
+import lineage.dataclasses.metadata as dataclasses
+
+# import Metadata, SearchConditionTable
 
 LOGGER = getLogger(__name__)
 
 
-class Dataset:
+class Metadata:
     def __init__(
         self,
         mssql_connection: Optional[Connection] = None,
@@ -18,7 +20,7 @@ class Dataset:
         self.mssql_connection = mssql_connection
         self.logger = logger
         self.result: List = []
-        self.metadata: Optional[Metadata] = None
+        self.metadata: Optional[dataclasses.Metadata] = None
 
     @classmethod
     def from_mssql_connection(
@@ -52,10 +54,10 @@ class Dataset:
 
             return self
 
-    def set_metadata(self, search_condition_table: SearchConditionTable):
+    def set_metadata(self, search_condition_table: dataclasses.SearchConditionTable):
 
         try:
-            self.metadata = Metadata(
+            self.metadata = dataclasses.Metadata(
                 table_name=self.result[search_condition_table.row_index].get(
                     search_condition_table.column_name
                 )
